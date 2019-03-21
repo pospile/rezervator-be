@@ -1,0 +1,36 @@
+{
+  "name": "rezervator-be",
+  "version": "1.0.0",
+  "description": "Rezervator backend monolith microservice",
+  "main": "bin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node ./microservices/api.js",
+    "start": "node microservices/api.js"
+  },
+  "author": "Underholding s.r.o.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "body-parser": "^1.18.3",
+    "braintree": "^2.14.0",
+    "cookie-parser": "^1.4.4",
+    "cote": "^0.19.1",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.1.1-alpha.3",
+    "form-data": "latest",
+    "fs-extra": "^7.0.1",
+    "got": "^9.6.0",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.11",
+    "mysql": "^2.16.0",
+    "nodemailer": "^5.1.1",
+    "request": "^2.88.0",
+    "request-cookies": "^1.1.0",
+    "smsapi": "^1.5.7",
+    "smsapicom": "^1.5.1",
+    "string-similarity": "^3.0.0",
+    "tough-cookie": "latest",
+    "vokativ": "^1.0.1"
+  }
+}

@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>Rezervator payment gateway</title>
+    <link rel="stylesheet" href="/static/css/pure-min.css"/>
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+</head>
+
+<body>
+
+<div class="payment-card">
+
+    <form class="pure-form pure-form-stacked " action="http://localhost:8080/payment/process" method="post">
+        <fieldset>
+            <h2>You will be charged after ride is finished</h2>
+
+            <br>
+            <input type="hidden" id="rent_id" name="rent_id"/>
+            <div>
+                You will be charged approximately for: <b id="amount"></b>
+            </div>
+            <div id="checkout"></div>
+
+            <button type="submit" class="pure-button pure-button-primary">Pay now</button>
+
+        </fieldset>
+    </form>
+    4111 1111 1111 1111<br>
+    08 / 20 <br>
+    099
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
+<script>
+
+    const LOCAL = "http://localhost:8080";
+    const PROD = "https://rezervator-3276.rostiapp.cz";
+    let prod = false;
+
+    let url_cut = window.location.pathname.split("/");
+    let rent_id = url_cut[url_cut.length-1];
+
+    console.log(`${prod ? PROD : LOCAL}`);
+    $.get(`${prod ? PROD : LOCAL}/payment/initialize/${rent_id}`, (data) => {
+        console.log(data);
+        $.get(`${prod ? PROD : LOCAL}/transaction/${rent_id}`, (data) => {
+            console.log(data);
+            $("#amount").html(`${data.transaction.price} €`);
+        });
+        $("#rent_id").val(data.rentId);
+        braintree.setup(data.clientToken, 'dropin', {
+            container: 'checkout'
+        });
+    });
+</script>
+
+</body>
+
+</html>

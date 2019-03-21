@@ -1,0 +1,18 @@
+exports.URLs = {
+    "ROOT": { "url": "/", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "AVAILABILITY_FOR_DATE": { "url": "/availability/date", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "AVAILABILITY_FOR_DATE_UNLOCK": { "url": "/availability/date/unlock", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "TRANSACTIONS_FOR_NEXT_MONTH": { "url": "/rents", "auth": false},
+    "AUTHENTICATE": { "url": "/auth/login", "auth": false},
+    "AUTHENTICATE_TOKEN": { "url": "/auth/token", "auth": false},
+    "TRANSACTION_DETAIL": {"url": "/transaction/:rent_id", "auth": false},
+    "PAYMENT_UI": {"url": "/payment/:rent_id", "auth": false},
+    "PAYMENT_API_INITIALIZE": {"url": "/payment/initialize/:rent_id", "auth": false},
+    "PAYMENT_API_PROCESS": {"url": "/payment/process", "auth": false},
+    "USER_DETAIL": { "url": "/user/me", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "GET_ALL_USERS": { "url": "/users", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "OCR_ANALYSIS": { "url": "/ocr", "auth": true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "VOKATIV": { "url": "/vokativ", "auth": false},
+    "TEMPLATE_TEST": {"url": "/template", auth: true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "SMS_TEST": {"url": "/sms", auth: true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+};

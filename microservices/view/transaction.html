@@ -1,0 +1,57 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>Rezervator payment gateway</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+</head>
+
+<body>
+    <div class="payment-card">
+        <div class="text-left">
+            <div class="spinner-border text-success" role="status"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                Transaction is being processed...
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                Transakce # <b><span id="rent_id"></span></b>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                Status is: <b><span id="status"></span></b>
+            </div>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script>
+
+    const LOCAL = "http://localhost:8080";
+    const PROD = "https://rezervator-3276.rostiapp.cz";
+    let prod = false;
+
+    let url_cut = window.location.pathname.split("/");
+    let rent_id = url_cut[url_cut.length-1];
+
+    console.log(`${prod ? PROD : LOCAL}`);
+    $.get(`${prod ? PROD : LOCAL}/transaction/${rent_id}`, (data) => {
+        console.log(data);
+        $("#rent_id").html(data.transaction.id);
+        $("#status").html(data.transaction.status);
+    });
+</script>
+
+</body>
+
+</html>
