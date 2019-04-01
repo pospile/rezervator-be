@@ -1,0 +1,92 @@
+version: '3'
+
+networks:
+  lb:
+    driver: overlay
+  cote:
+    driver: overlay
+
+services:
+  lb:
+    image: dockercloud/haproxy
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - lb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 443:443
+
+  api:
+    image: underholding/rezervator
+    networks:
+      - lb
+      - cote
+    command: node microservices/api.js
+    restart: on-failure
+    ports:
+      - 8080:8080
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-api.underholding.cz, ws://local-api.underholding.cz
+      - SERVICE_PORTS=5000
+      - BALANCE=source
+    depends_on:
+      - redis
+
+  ocr:
+    networks:
+      - lb
+      - cote
+    image: underholding/rezervator
+    command: node microservices/ocrService.js
+    restart: on-failure
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-local-db.underholding.cz, ws://local-db.underholding.cz
+      - SERVICE_PORTS=5001
+      - BALANCE=source
+    depends_on:
+      - redis
+
+  db:
+    networks:
+      - lb
+      - cote
+    image: underholding/rezervator
+    command: node microservices/dbService.js
+    restart: on-failure
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-local-db.underholding.cz, ws://local-db.underholding.cz
+      - SERVICE_PORTS=5002
+      - BALANCE=source
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    networks:
+      - cote
+    ports:
+      - 6379:6379
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - cote
+    ports:
+      - 3306:3306
+    volumes:
+      - ./sql_dump:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=25791998
+      - MYSQL_DATABASE=rezervator

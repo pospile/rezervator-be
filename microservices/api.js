@@ -28,7 +28,7 @@ const POSITIVE_STATUSES = ["AUTHORIZED", "SETTLED", "SETTLING", "SUBMITTED_FOR_S
 
 let mc = mysql.createPool({
     connectionLimit : 50,
-    host: '127.0.0.1',
+    host: 'mysql',
     user: 'root',
     password: '25791998',
     database: 'rezervator'
