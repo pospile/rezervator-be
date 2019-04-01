@@ -1,0 +1,5 @@
+version: '2'
+services:
+  # Reference the service that you want to extend
+  api:
+    scale: 2

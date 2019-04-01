@@ -1,30 +1,13 @@
-version: '3'
+version: '2'
 
 networks:
-  lb:
-    driver: overlay
   cote:
     driver: overlay
 
 services:
-  lb:
-    image: dockercloud/haproxy
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-    networks:
-      - lb
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 80:80
-      - 443:443
-
   api:
     image: underholding/rezervator
     networks:
-      - lb
       - cote
     command: node microservices/api.js
     restart: on-failure
@@ -41,7 +24,6 @@ services:
 
   ocr:
     networks:
-      - lb
       - cote
     image: underholding/rezervator
     command: node microservices/ocrService.js
@@ -57,7 +39,6 @@ services:
 
   db:
     networks:
-      - lb
       - cote
     image: underholding/rezervator
     command: node microservices/dbService.js
