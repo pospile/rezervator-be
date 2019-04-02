@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 networks:
   cote:
@@ -6,7 +6,7 @@ networks:
 
 services:
   api:
-    image: underholding/rezervator
+    image: vojtechpospichal/underholding
     networks:
       - cote
     command: node microservices/api.js
@@ -25,7 +25,7 @@ services:
   ocr:
     networks:
       - cote
-    image: underholding/rezervator
+    image: vojtechpospichal/underholding
     command: node microservices/ocrService.js
     restart: on-failure
     environment:
@@ -40,7 +40,7 @@ services:
   db:
     networks:
       - cote
-    image: underholding/rezervator
+    image: vojtechpospichal/underholding
     command: node microservices/dbService.js
     restart: on-failure
     environment:
@@ -67,7 +67,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./sql_dump:/docker-entrypoint-initdb.d
+      - ./sql_dump/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=25791998
       - MYSQL_DATABASE=rezervator
