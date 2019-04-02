@@ -5,11 +5,22 @@ networks:
     driver: overlay
 
 services:
+  migration:
+    image: vojtechpospichal/underholding
+    networks:
+      - cote
+    command: node microservices/migrate.js
+    restart: no
+    depends_on:
+      - mysql
+
   api:
     image: vojtechpospichal/underholding
     networks:
       - cote
     command: node microservices/api.js
+    deploy:
+      replicas: 2
     restart: on-failure
     ports:
       - 8080:8080
@@ -21,6 +32,7 @@ services:
       - BALANCE=source
     depends_on:
       - redis
+      - migration
 
   ocr:
     networks:
@@ -36,6 +48,7 @@ services:
       - BALANCE=source
     depends_on:
       - redis
+      - migration
 
   db:
     networks:
@@ -51,6 +64,7 @@ services:
       - BALANCE=source
     depends_on:
       - redis
+      - migration
 
   redis:
     image: redis
@@ -66,8 +80,7 @@ services:
       - cote
     ports:
       - 3306:3306
-    volumes:
-      - ./sql_dump/docker-entrypoint-initdb.d
+      - 33060:33060
     environment:
       - MYSQL_ROOT_PASSWORD=25791998
       - MYSQL_DATABASE=rezervator
