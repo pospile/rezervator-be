@@ -10,7 +10,6 @@ services:
     networks:
       - cote
     command: node microservices/migrate.js
-    restart: no
     depends_on:
       - mysql
 

@@ -5,7 +5,7 @@ const mysql_import = require('mysql-import');
 
 let mc = mysql.createPool({
     connectionLimit : 50,
-    host: 'localhost',
+    host: 'mysql',
     user: 'root',
     password: '25791998',
     database: 'rezervator'
