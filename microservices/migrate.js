@@ -43,7 +43,7 @@ mc.query('select now() as time', [], function (err, data, val) {
         console.log(`Running db migration ${value}`);
 
         var importer = mysql_import.config({
-            host: 'localhost',
+            host: 'mysql',
             user: 'root',
             password: '25791998',
             database: 'rezervator',
