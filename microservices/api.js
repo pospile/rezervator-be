@@ -10,6 +10,7 @@ const appRoot = require('app-root-path');
 const tokenizer = require('./jwt.js');
 const URLs = require("./URLs.js").URLs;
 const cote = require('cote');
+const os = require('os');
 const fileUpload = require("express-fileupload");
 
 const ocrServiceRequester = new cote.Requester({ name: 'api service requester', key: 'ocr', });
@@ -78,7 +79,7 @@ app.use(function(req, res, next) {
                         }
                         else {
                             console.log("User není autentikován, sorry");
-                            res.status(403).json({"unauthorized": "please log-in to access this page"});
+                            res.status(403).json({"unauthorized": "please log-in to access this page", "service": os.hostname(), "time": Date.now()});
                             return;
                         }
                     });

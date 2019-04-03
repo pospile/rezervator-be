@@ -12,6 +12,8 @@ services:
     command: node microservices/migrate.js
     depends_on:
       - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
 
   api:
     image: vojtechpospichal/underholding
