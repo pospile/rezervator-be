@@ -67,15 +67,22 @@ app.use(function(req, res, next) {
                         return;
                     }
                     mc.query("select * from users where id = ?", [req.cookies.id], function (error, results, fields) {
-                        let verify = tokenizer.verify(req.cookies.auth, {
-                            issuer: "Authorizaxtion/REZERVATOR/API.JS",
-                            subject: results[0].email,
-                            audience: results[0].scope // this should be provided by client
-                        });
-                        if ( verify && URLs[key].scope.includes(results[0].scope)) {
-                            console.log("User je autentikován, super.");
-                            req.user = results[0];
-                            next();
+                        if (results) {
+                            let verify = tokenizer.verify(req.cookies.auth, {
+                                issuer: "Authorizaxtion/REZERVATOR/API.JS",
+                                subject: results[0].email,
+                                audience: results[0].scope // this should be provided by client
+                            });
+                            if ( verify && URLs[key].scope.includes(results[0].scope)) {
+                                console.log("User je autentikován, super.");
+                                req.user = results[0];
+                                next();
+                            }
+                            else {
+                                console.log("User není autentikován, sorry");
+                                res.status(403).json({"unauthorized": "please log-in to access this page", "service": os.hostname(), "time": Date.now()});
+                                return;
+                            }
                         }
                         else {
                             console.log("User není autentikován, sorry");

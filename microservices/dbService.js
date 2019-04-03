@@ -8,7 +8,7 @@ const appRoot = require('app-root-path');
 
 const mc = mysql.createPool({
     connectionLimit : 50,
-    host: '127.0.0.1',
+    host: 'mysql',
     user: 'root',
     password: '25791998',
     database: 'rezervator'

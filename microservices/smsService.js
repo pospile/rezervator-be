@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const request = require('request');
 const _ = require("lodash");
 
-let prod = false;
+let prod = true;
 
 const templates = {
     "ocr-done": "Dobrý den ${vokativ},\nVáš účet byl právě schválen, nyní se můžete přihlásit a užít si svou první jízdu.\nVáš REEZ 🚗",
@@ -12,7 +12,7 @@ const templates = {
 
 const mc = mysql.createPool({
     connectionLimit : 50,
-    host: '127.0.0.1',
+    host: 'mysql',
     user: 'root',
     password: '25791998',
     database: 'rezervator'

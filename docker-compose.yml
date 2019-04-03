@@ -33,7 +33,7 @@ services:
       - BALANCE=source
     depends_on:
       - redis
-      - migration
+      - mysql
 
   ocr:
     networks:
@@ -49,7 +49,7 @@ services:
       - BALANCE=source
     depends_on:
       - redis
-      - migration
+      - mysql
 
   db:
     networks:
@@ -65,7 +65,54 @@ services:
       - BALANCE=source
     depends_on:
       - redis
-      - migration
+      - mysql
+
+  sms:
+    networks:
+      - cote
+    image: vojtechpospichal/underholding
+    command: node microservices/smsService.js
+    restart: on-failure
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-local-db.underholding.cz, ws://local-db.underholding.cz
+      - SERVICE_PORTS=5002
+      - BALANCE=source
+    depends_on:
+      - redis
+      - mysql
+
+  email:
+    networks:
+      - cote
+    image: vojtechpospichal/underholding
+    command: node microservices/emailService.js
+    restart: on-failure
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-local-db.underholding.cz, ws://local-db.underholding.cz
+      - SERVICE_PORTS=5002
+      - BALANCE=source
+    depends_on:
+      - redis
+      - mysql
+
+  monitoring:
+    networks:
+      - cote
+    image: vojtechpospichal/underholding
+    command: node microservices/monitoringService.js
+    restart: on-failure
+    environment:
+      - PG=true
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - VIRTUAL_HOST=local-local-db.underholding.cz, ws://local-db.underholding.cz
+      - SERVICE_PORTS=5002
+      - BALANCE=source
+    depends_on:
+      - redis
 
   redis:
     image: redis
