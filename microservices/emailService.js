@@ -8,9 +8,9 @@ let prod = true;
 
 const mc = mysql.createPool({
     connectionLimit : 50,
-    host: 'mysql',
+    host: process.env.MYSQL_HOST,
     user: 'root',
-    password: '25791998',
+    password: process.env.MYSQL_PASS,
     database: 'rezervator'
 });
 

@@ -15,4 +15,5 @@ exports.URLs = {
     "VOKATIV": { "url": "/vokativ", "auth": false},
     "TEMPLATE_TEST": {"url": "/template", auth: true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
     "SMS_TEST": {"url": "/sms", auth: true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
+    "RENT_SERVICE_TEST": {"url": "/rent_service", auth: true, "scope": ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]},
 };

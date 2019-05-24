@@ -21,7 +21,7 @@ const useragent = require('express-useragent');
 
 const ocrServiceRequester = new cote.Requester({ name: 'api service requester', key: 'ocr', });
 const emailServiceRequester = new cote.Requester({ name: 'email service requester', key: 'email'});
-const smsServiceRequester = new cote.Requester({ name: 'sms service requester', key: 'sms'});
+const rezervationServiceRequester = new cote.Requester({ name: 'rezervation service requester', key: 'rezervation'});
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(cookieParser("secret-cookie"));
@@ -41,7 +41,7 @@ let mc = mysql.createPool({
     connectionLimit : 50,
     host: process.env.MYSQL_HOST,
     user: 'root',
-    password: '25791998',
+    password: process.env.MYSQL_PASS,
     database: 'rezervator'
 });
 
@@ -431,6 +431,14 @@ app.get(URLs.SMS_TEST.url, function (req, res) {
         return res.send(json);
     });
 });
+
+app.get(URLs.RENT_SERVICE_TEST.url, function (req, res) {
+    rezervationServiceRequester.send({ type: 'list-cars-from-date-for-time'}, (rents) => {
+        res.json(rents);
+        console.log("All rents:", JSON.stringify(rents, null, 4));
+    });
+});
+
 
 
 

@@ -18,11 +18,11 @@ let authorizationCookie;
 
 
 let loginToOcrService = () => {
-    let url = "https://zonky.blindspot.ai/login";
+    let url = process.env.OCR_URL_LOGIN;
     request({
         url: url,
         method: "POST",
-        json: {"username": "zonky", "password": "zonky123"}
+        json: {"username": process.env.OCR_NAME, "password": process.env.OCR_PASS}
     }, function (err, response, body) {
         if (err) throw Error("ocrService was not able to contact ocr service");
 
@@ -36,11 +36,11 @@ let loginToOcrService = () => {
 
 let uploadFilesToRecognize = (user, id_front_url, id_back_url, additional_url) => {
     try {
-        let url = "https://zonky.blindspot.ai/api/upload";
+        let url = process.env.OCR_URL_UPLOAD;
 
         console.log("Upload started");
 
-        cookieJar.setCookie(`Authorization=${authorizationCookie}`, 'https://zonky.blindspot.ai', {}, function () {
+        cookieJar.setCookie(`Authorization=${authorizationCookie}`, process.env.OCR_URL_COOKIE, {}, function () {
             (async () => {
                 try {
 
@@ -101,7 +101,7 @@ let downloadOcrAnalysis = (req, cb) => {
     console.log(`Spouštím loading ocr pro ${req.code}`);
     let url = `https://zonky.blindspot.ai/api/result?id=${req.code}`;
 
-    cookieJar.setCookie(`Authorization=${authorizationCookie}`, 'https://zonky.blindspot.ai', {}, function () {
+    cookieJar.setCookie(`Authorization=${authorizationCookie}`, process.env.OCR_URL_COOKIE, {}, function () {
         (async () => {
             try {
 
